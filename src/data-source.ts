@@ -2,6 +2,7 @@ import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { Like } from "./entity/Like"
 import { Picture } from "./entity/Picture"
+import { Response } from "./entity/Response"
 import { Tweet } from "./entity/Tweet"
 import { User } from "./entity/User"
 
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
     database: "simple_twitter_2",
     synchronize: true,
     logging: true,
-    entities: [Tweet, User, Like, Picture],
+    entities: [Tweet, User, Like, Picture, Response],
     migrations: [],
     subscribers: [],
     dropSchema: true

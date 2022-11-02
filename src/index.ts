@@ -2,6 +2,7 @@ import { AppDataSource } from "./data-source"
 import { Like } from "./entity/Like";
 import { Tweet } from "./entity/Tweet";
 import { User } from "./entity/User"
+import { TweetSeed } from "./seed/tweet.seed";
 import { UserSeed } from "./seed/user.seed";
 
 AppDataSource.initialize().then(async () => {
@@ -13,13 +14,9 @@ AppDataSource.initialize().then(async () => {
     const pictureRepository = AppDataSource.getRepository('Picture');
 
     const userSeed = new UserSeed(userRepository); 
-    const users = userSeed.createUsers(5)
+    const users = userSeed.createUsers(500);
 
-    const tweet1: Tweet = {
-        id: '1',
-        content: 'Primer tuit carajo',
-        user: users[0]
-    }
-    tweetRepository.save(tweet1)
+    const tweetSeed = new TweetSeed(tweetRepository);
+    const tweets = tweetSeed.createTweets(3000, users);
 
 }).catch(error => console.log(error))

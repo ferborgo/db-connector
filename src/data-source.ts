@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
     password: "grandescosas",
     database: "simple_twitter_2",
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [Tweet, User, Like, Picture, Response],
     migrations: [],
     subscribers: [],

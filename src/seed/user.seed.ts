@@ -15,7 +15,6 @@ export class UserSeed {
         const users: User[] = [];
         for (let index = 1; index <= cant; index++) {
             const user: User = {
-                id: index.toString(),
                 username: faker.internet.userName(),
                 biography: 'Software developer at Tecnom',
                 screen_name: 'Fernando'
@@ -23,6 +22,8 @@ export class UserSeed {
             this.repository.save(user);
             users.push(user);
         }
+
+        console.log('Seeded ' + cant + ' users');
 
         return users;
     }

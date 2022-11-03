@@ -1,0 +1,8 @@
+select t.*, u.*, p.*
+from likes l
+inner join tweets t on (t.id = l.tweetId) 
+inner join users u on (u.id = t.userId)
+left join pictures p on (p.tweetId = l.tweetId)
+where l.userId = 1 order by l.created_at;
+
+select t.*, u.*, p.* from likes l inner join tweets t on (t.id = l.tweetId) inner join users u on (u.id = t.userId) left join pictures p on (p.tweetId = l.tweetId) where l.userId = 1 order by l.created_at;

@@ -6,7 +6,7 @@ import { User } from "./User";
 export class Like {
 
     @PrimaryGeneratedColumn()
-    public id: number;
+    public id?: number;
 
     @Column()
     public tweetId!: string

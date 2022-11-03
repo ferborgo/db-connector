@@ -10,6 +10,7 @@
    },
    "dependencies": {
       "faker": "^5.5.3",
+      "ksuid": "^3.0.0",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.13",
       "typeorm": "0.3.10"

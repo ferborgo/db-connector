@@ -1,11 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Tweet } from "./Tweet";
 import { User } from "./User";
 
 @Entity({ name: 'responses' })
 export class Response {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     public id: number;
 
     @Column()

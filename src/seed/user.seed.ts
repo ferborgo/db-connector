@@ -4,7 +4,7 @@ var faker = require('faker');
 
 export class UserSeed {
     
-    private repository;
+    private repository: Repository<ObjectLiteral>;
 
     constructor(repository: Repository<ObjectLiteral>) {
         this.repository = repository;
@@ -14,18 +14,26 @@ export class UserSeed {
 
         const users: User[] = [];
         for (let index = 1; index <= cant; index++) {
+            const username = faker.internet.userName();
             const user: User = {
-                username: faker.internet.userName(),
+                username,
                 biography: 'Software developer at Tecnom',
-                screen_name: 'Fernando'
+                screen_name: username
             }
-            this.repository.save(user);
+            this.saveMySQL(user);
+
             users.push(user);
         }
 
-        console.log('Seeded ' + cant + ' users');
-
         return users;
+    }
+
+    private saveMySQL(user: User) {
+        this.repository.save(user)
+    }
+
+    private saveDynamo(user: User) {
+        // TO-DO
     }
 
 

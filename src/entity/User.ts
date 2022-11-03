@@ -22,9 +22,9 @@ export class User {
     })
     created_at?: string
 
-    @OneToMany(() => Tweet, (tweet) => tweet.user)
+    @OneToMany(() => Tweet, (tweet) => tweet.user, {cascade: true})
     tweets?: Tweet[]
 
-    @OneToMany(() => Like, (like) => like.user)
+    @OneToMany(() => Like, (like) => like.user, {cascade: true})
     like?: Like;
 }

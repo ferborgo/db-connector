@@ -30,9 +30,9 @@ export class Tweet {
     @ManyToOne(() => User, (user) => user.tweets)
     user?: User
 
-    @OneToMany(() => Picture, (picture) => picture.tweet)
+    @OneToMany(() => Picture, (picture) => picture.tweet, {cascade: true})
     pictures?: Picture[]
 
-    @OneToMany(() => Like, (like) => like.tweet)
+    @OneToMany(() => Like, (like) => like.tweet, {cascade: true})
     like?: Like;
 }

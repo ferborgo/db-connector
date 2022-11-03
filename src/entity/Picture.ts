@@ -5,7 +5,7 @@ import { Tweet } from "./Tweet";
 export class Picture {
     
     @PrimaryColumn()
-    id: number;
+    id: string;
 
     @Column()
     url: string;

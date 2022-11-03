@@ -23,6 +23,7 @@ export class TweetSeed {
             }
             
             this.repository.save(tuit);
+            tuits.push(tuit)
         }
 
         console.log('Seeded ' + cant + ' tuits');

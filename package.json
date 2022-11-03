@@ -17,6 +17,7 @@
    },
    "scripts": {
       "start": "ts-node src/index.ts",
+      "seed": "ts-node src/seed.ts",
       "typeorm": "typeorm-ts-node-commonjs"
    }
 }

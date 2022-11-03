@@ -6,7 +6,7 @@ import { User } from "./User";
 export class Response {
 
     @PrimaryColumn()
-    public id: number;
+    public id: string;
 
     @Column()
     public content: string

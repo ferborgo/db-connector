@@ -6,7 +6,7 @@ import { User } from "./User";
 @Entity({ name: 'tweets' })
 export class Tweet {
     
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     id?: string;
 
     @Column()

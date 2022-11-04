@@ -7,6 +7,7 @@ export const saveUserOnDynamo = (user: User) => {
     const item = {
         pk: 'USER#' + user.username,
         sk: 'USER#' + user.username,
+        id: user.id,
         username: user.username
     }
 

@@ -23,17 +23,35 @@ export class DynamoDBController {
     });
 
     UserEntity: Entity<any>;
+    TweetEntity: Entity<any>;
 
     private constructor() {
+
         this.UserEntity = new Entity({
             name: 'User',
             attributes: {
                 pk: { partitionKey: true },
                 sk: { hidden: true, sortKey: true },
+                id: { type: 'string' }, 
                 username: { type: 'string' }
             },
             table: DynamoDBController.table as any
         } as const);
+
+        this.TweetEntity = new Entity({
+            name: 'Tweet',
+            attributes: {
+                pk: { partitionKey: true },
+                sk: { hidden: true, sortKey: true },
+                id: { type: 'string' },
+                content: { type: 'string' },
+                userId: { type: 'string' },
+                likes_count: { type: 'number', default: 0 },
+                comments_count: { type: 'number', default: 0 }
+            },
+            table: DynamoDBController.table as any
+        } as const);
+
     }
 
     public static getInstance(): DynamoDBController {

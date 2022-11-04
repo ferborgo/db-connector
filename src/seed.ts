@@ -20,8 +20,8 @@ AppDataSource.initialize().then(async () => {
     const userSeed = new UserSeed(userRepository); 
     const users = userSeed.createUsers(10);
 
-    // const tweetSeed = new TweetSeed(tweetRepository);
-    // const tweets = tweetSeed.createTweets(150000, users);
+    const tweetSeed = new TweetSeed(tweetRepository);
+    const tweets = tweetSeed.createTweets(20, users);
 
     // const likeSeed = new LikeSeed(likeRepository);
     // await likeSeed.createLikes(150000, users, tweets);

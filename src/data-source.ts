@@ -18,5 +18,5 @@ export const AppDataSource = new DataSource({
     entities: [Tweet, User, Like, Picture, Response],
     migrations: [],
     subscribers: [],
-    dropSchema: false
+    dropSchema: true
 })

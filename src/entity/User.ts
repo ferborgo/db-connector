@@ -5,7 +5,7 @@ import { Tweet } from "./Tweet"
 @Entity({ name: 'users' })
 export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryColumn()
     id?: string
 
     @Column()

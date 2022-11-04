@@ -1,6 +1,6 @@
 import KSUID = require("ksuid");
 import { ObjectLiteral, Repository } from "typeorm";
-import { DynamoDBController } from "../dynamodb/dynamodb";
+import { saveUserOnDynamo } from "../dynamodb/entities/User";
 import { User } from "../entity/User";
 var faker = require('faker');
 
@@ -21,7 +21,7 @@ export class UserSeed {
             const user: User = {
                 id: KSUID.randomSync().string,
                 username,
-                biography: 'Software developer at Tecnom',
+                biography: 'Something...',
                 screen_name: username
             }
 
@@ -41,17 +41,8 @@ export class UserSeed {
     }
 
     private saveDynamo(user: User, index: number) {
-        const db = DynamoDBController.getInstance();
-
-        const item = {
-            pk: 'USER#' + user.username,
-            sk: 'USER#' + user.username,
-            username: user.username
-        }
-
-        db.UserEntity.put(item)
+        saveUserOnDynamo(user)            
             .then(res => console.log(`User number ${index} saved on DynamoDB`))
             .catch(error => console.log('Error saving user on dynamodb: ' + error))
-        
     }
 }

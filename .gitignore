@@ -4,3 +4,4 @@ node_modules/
 build/
 tmp/
 temp/
+src/dynamodb/docker/dynamodb/shared-local-instance.db

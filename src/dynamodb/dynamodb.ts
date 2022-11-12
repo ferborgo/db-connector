@@ -24,6 +24,8 @@ export class DynamoDBController {
 
     UserEntity: Entity<any>;
     TweetEntity: Entity<any>;
+    ResponseEntity: Entity<any>;
+    LikeEntity: Entity<any>;
 
     private constructor() {
 
@@ -33,7 +35,9 @@ export class DynamoDBController {
                 pk: { partitionKey: true },
                 sk: { hidden: true, sortKey: true },
                 id: { type: 'string' }, 
-                username: { type: 'string' }
+                username: { type: 'string' },
+                screen_name: { type: 'string' },
+                biography: { type: 'string' }
             },
             table: DynamoDBController.table as any
         } as const);
@@ -47,10 +51,35 @@ export class DynamoDBController {
                 content: { type: 'string' },
                 userId: { type: 'string' },
                 likes_count: { type: 'number', default: 0 },
-                comments_count: { type: 'number', default: 0 }
+                comments_count: { type: 'number', default: 0 },
+                pictures: { type: 'map' }
             },
             table: DynamoDBController.table as any
         } as const);
+
+        this.ResponseEntity = new Entity({
+            name: 'Response',
+            attributes: {
+                pk: { partitionKey: true },
+                sk: { hidden: true, sortKey: true },
+                content: { type: 'string' },
+                tweetId: { type: 'string' },
+                username: { type: 'string' }
+            },
+            table: DynamoDBController.table as any
+        })
+
+        this.LikeEntity = new Entity({
+            name: 'Like',
+            attributes: {
+                pk: { partitionKey: true },
+                sk: { hidden: true, sortKey: true },
+                created_at: { type: 'string' },
+                tweetId: { type: 'string' },
+                username: { type: 'string' }
+            },
+            table: DynamoDBController.table as any
+        })
 
     }
 
@@ -60,5 +89,9 @@ export class DynamoDBController {
         }
 
         return DynamoDBController.instance;
+    }
+
+    public documentClient() {
+        return DocumentClient;
     }
 }

@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
     port: 3306,
     username: "root",
     password: "grandescosas",
-    database: "simple_twitter_2",
+    database: "simple_twitter",
     synchronize: true,
     logging: false,
     entities: [Tweet, User, Like, Picture, Response],

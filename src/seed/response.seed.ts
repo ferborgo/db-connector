@@ -1,4 +1,5 @@
 import { ObjectLiteral, Repository } from "typeorm";
+import { saveResponseOnDynamo } from "../dynamodb/entities/Response";
 import { Response } from "../entity/Response";
 import { Tweet } from "../entity/Tweet";
 import { User } from "../entity/User";
@@ -7,7 +8,7 @@ var faker = require('faker');
 const KSUID = require('ksuid');
 
 export class ResponseSeed {
-    
+
     private repository: Repository<ObjectLiteral>;
 
     constructor(repository: Repository<ObjectLiteral>) {
@@ -30,17 +31,22 @@ export class ResponseSeed {
                 userId: randomUser.id
             }
 
-            this.saveMySQL(response);
+            this.saveMySQL(response, index);
+            this.saveDynamo(response, index);
         }
 
     }
 
-    private saveMySQL(response: Response) {
+    private saveMySQL(response: Response, index: number) {
         this.repository.save(response)
+            .then(res => console.log(`Response number ${index} saved on MySQL`))
+            .catch(error => console.log('There has been an error saving response on MySQL: ', error))
     }
 
-    private saveDynamo(response: Response) {
-        // TO-DO
+    private saveDynamo(response: Response, index: number) {
+        saveResponseOnDynamo(response)
+            .then(res => console.log(`Response number ${index} saved on DynamoDB`))
+            .catch(error => console.log('There has been an error saving response on DynamoDB: ', error))
     }
 
 

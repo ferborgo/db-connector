@@ -37,7 +37,7 @@ export class PictureSeed {
     }
 
     private saveDynamo(picture: Picture) {
-        // TO-DO
+        // Se guardan en tweet.seed.ts
     }
 
 

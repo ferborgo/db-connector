@@ -5,6 +5,7 @@ import { User } from "../entity/User";
 import { getRandomInt } from "../utils/random";
 var faker = require('faker');
 import KSUID = require("ksuid");
+import { Picture } from "../entity/Picture";
 
 export class TweetSeed {
 
@@ -25,6 +26,8 @@ export class TweetSeed {
                 user: users[random]
             }
 
+            tuit.pictures = this.createPictures(getRandomInt(0, 4), tuit);
+
             this.saveOnMySQL(tuit, index);
             this.saveOnDynamo(tuit, index)
 
@@ -42,8 +45,25 @@ export class TweetSeed {
 
     private saveOnDynamo(tweet: Tweet, index: number) {
         saveTweetOnDynamo(tweet)
-            .then(res => console.log(`Tweet number ${index} saved on MySQL`))
+            .then(res => console.log(`Tweet number ${index} saved on DynamoDB`))
             .catch(error => console.log('There has been an error saving tweet on Mysql: ', error))
+    }
+
+    private createPictures(cant = 4, tweet: Tweet): Picture[] {
+
+        const pictures: Picture[] = [];
+        for (let index = 1; index <= cant; index++) {
+            const Picture: Picture = {
+                id: KSUID.randomSync().string,
+                alt: faker.lorem.sentence(),
+                tweet,
+                url: faker.image.imageUrl()
+            }
+
+            pictures.push(Picture);
+        }
+
+        return pictures;
     }
 
 }

@@ -1,4 +1,6 @@
+import { Picture } from "../../entity/Picture";
 import { Tweet } from "../../entity/Tweet"
+import { User } from "../../entity/User";
 import { DynamoDBController } from "../dynamodb";
 
 const db = DynamoDBController.getInstance();
@@ -8,8 +10,37 @@ export const saveTweetOnDynamo = (tweet: Tweet) => {
         pk: 'TWEET#' + tweet.user.username,
         sk: 'ID#' + tweet.id,
         userId: tweet.user.id,
-        content: tweet.content
+        content: tweet.content,
+        pictures: convertToObject(tweet.pictures)
     }
 
     return db.TweetEntity.put(item)
+}
+
+function convertToObject(pictures: Picture[]): Object {
+    var result = {};
+    for (var i = 0; i < pictures.length; i++) {
+        const actual: Picture = pictures[i];
+        result[actual.id] = {
+            alt: actual.alt,
+            url: actual.url
+        };
+    }
+    return result;
+}
+
+
+export const listTweetsFromUser = async (username) => {
+    let total_ms = 0;
+    let operation_time: number;
+    let start: number;
+
+    start = Date.now();
+    const res = await db.TweetEntity.query(`TWEET#${username}`, {
+        reverse: true
+    });
+    operation_time = (Date.now() - start);
+    total_ms = total_ms + operation_time;
+
+    console.log('Dynamo - List last tweets of User: ', operation_time, ' ms');
 }

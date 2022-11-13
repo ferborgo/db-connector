@@ -1,6 +1,9 @@
-import { EntityManager } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { getUser } from "../dynamodb/entities/User";
+
+/**
+ * Caso de uso: "Quiero ver la información en detalle de un usuario"
+ */
 
 export const testGetUser = async (username: string) => {
     

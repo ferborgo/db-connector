@@ -19,6 +19,7 @@
    },
    "scripts": {
       "start": "ts-node src/index.ts",
+      "test": "ts-node src/tests/run.ts",
       "seed": "ts-node src/seed.ts",
       "typeorm": "typeorm-ts-node-commonjs",
       "run-dynamo-local": "cd ./src/dynamodb && docker-compose up",

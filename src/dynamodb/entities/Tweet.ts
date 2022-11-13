@@ -30,7 +30,7 @@ function convertToObject(pictures: Picture[]): Object {
 }
 
 
-export const listTweetsFromUser = async (username) => {
+export const listTweetsFromUser = async (username: string) => {
     let total_ms = 0;
     let operation_time: number;
     let start: number;
@@ -42,5 +42,18 @@ export const listTweetsFromUser = async (username) => {
     operation_time = (Date.now() - start);
     total_ms = total_ms + operation_time;
 
-    console.log('Dynamo - List last tweets of User: ', operation_time, ' ms');
+    console.log('Dynamo - List tweets of user with pictures: ', operation_time, ' ms');
+}
+
+export const getTweet = async (username: string, tweet_id: string) => {
+    let total_ms = 0;
+    let operation_time: number;
+    let start: number;
+
+    start = Date.now();
+    const res = await db.TweetEntity.get({pk: `TWEET#${username}`, sk: `ID#${tweet_id}`});
+    operation_time = (Date.now() - start);
+    total_ms = total_ms + operation_time;
+
+    console.log('Dynamo - Get tweet', operation_time, ' ms');
 }

@@ -23,16 +23,15 @@ AppDataSource.initialize().then(async () => {
     const tweetSeed = new TweetSeed(tweetRepository);
     const tweets = tweetSeed.createTweets(20, users);
 
-    // const likeSeed = new LikeSeed(likeRepository);
-    // await likeSeed.createLikes(150000, users, tweets);
+    const likeSeed = new LikeSeed(likeRepository);
+    await likeSeed.createLikes(30, users, tweets);
 
-    // const tweets2 = await tweetRepository.find({ take: 20 });
-    // const pictureSeed = new PictureSeed(pictureRepository);
-    // pictureSeed.createPictures(50000, tweets2 as Tweet[]);
+    const tweets2 = await tweetRepository.find({ take: 20 });
+    const pictureSeed = new PictureSeed(pictureRepository);
+    pictureSeed.createPictures(15, tweets2 as Tweet[]);
 
-    // const tweets2 = await tweetRepository.find({ take: 20 });
-    // const users2 = await userRepository.find({ take: 20 });
-    // const responseSeed = new ResponseSeed(responseRepository);
-    // responseSeed.createResponses(10, tweets2 as Tweet[], users2 as User[]);
+
+    const responseSeed = new ResponseSeed(responseRepository);
+    responseSeed.createResponses(20, tweets as Tweet[], users as User[]);
 
 }).catch(error => console.log(error))

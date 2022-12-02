@@ -11,6 +11,7 @@ export const saveTweetOnDynamo = (tweet: Tweet) => {
         sk: 'ID#' + tweet.id,
         userId: tweet.user.id,
         content: tweet.content,
+        username: tweet.user.username,
         pictures: convertToObject(tweet.pictures)
     }
 

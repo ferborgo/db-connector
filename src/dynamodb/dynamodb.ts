@@ -18,6 +18,9 @@ export class DynamoDBController {
         name: TableName,
         partitionKey: 'pk',
         sortKey: 'sk',
+        indexes: {
+            GSI1: { partitionKey: 'gsi1_pk', sortKey: 'gsi1_sk' }
+        },
 
         DocumentClient
     });
@@ -50,6 +53,7 @@ export class DynamoDBController {
                 id: { type: 'string' },
                 content: { type: 'string' },
                 userId: { type: 'string' },
+                username: { type: 'string' },
                 likes_count: { type: 'number', default: 0 },
                 comments_count: { type: 'number', default: 0 },
                 pictures: { type: 'map' }
@@ -76,7 +80,10 @@ export class DynamoDBController {
                 sk: { hidden: true, sortKey: true },
                 created_at: { type: 'string' },
                 tweetId: { type: 'string' },
-                username: { type: 'string' }
+                like_username: { type: 'string' },
+                tweet_username: { type: 'string' },
+                gsi1_pk: { type: 'string' },
+                gsi1_sk: { type: 'string' }
             },
             table: DynamoDBController.table as any
         })

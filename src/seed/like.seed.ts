@@ -1,4 +1,5 @@
 import { Repository, ObjectLiteral } from "typeorm";
+import { saveLikeOnDynamo } from "../dynamodb/entities/Like";
 import { Like } from "../entity/Like";
 import { Tweet } from "../entity/Tweet";
 import { User } from "../entity/User";
@@ -29,15 +30,22 @@ export class LikeSeed {
                 userId: user.id || '1',
                 tweetId: tweet.id || '1'
             }
-            // try {
-            //     const row = await this.repository.findOneBy({ userId: user.id, tweetId: tweet.id })
-            //     if (!row) this.repository.save(like);
-            // } catch (error) { console.log('error like seed: ', error) }
 
-            this.repository.save(like);
+            this.saveMySQL(like, index);
+            this.saveDynamo(like, index);
         }
+    }
 
-        console.log('Seeded ' + cant + ' likes');
+    private saveMySQL(like: Like, index: number) {
+        this.repository.save(like)
+            .then(res => console.log(`Like number ${index} saved on MySQL`))
+            .catch(error => console.log('There has been an error saving Like on MySQL: ', error))
+    }
+
+    private saveDynamo(like: Like, index: number) {
+        saveLikeOnDynamo(like)
+            .then(res => console.log(`Like number ${index} saved on DynamoDB`))
+            .catch(error => console.log('There has been an error saving Like on DynamoDB: ', error))
     }
 
 }

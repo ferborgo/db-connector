@@ -10,6 +10,7 @@ import { getTweet } from "../dynamodb/entities/Tweet"
 
 export const testGetTweet = async (username: string, tweet_id: string) => {
 
+    // DynamoDB
     await getTweet(username, tweet_id);
 
     // MySQL

@@ -16,13 +16,12 @@ export const saveUserOnDynamo = (user: User) => {
     return db.UserEntity.put(item)
 }
 
-export const getUser = async (username: string) => {
-    let operation_time: number;
-    let start: number;
+export const getUser = async (username: string): Promise<number> => {
+    
 
-    start = Date.now();
+    const start = Date.now();
     await db.UserEntity.get({pk: `USER#${username}`, sk: `USER#${username}`});
-    operation_time = (Date.now() - start);
+    const elapsed_time = (Date.now() - start);
 
-    console.log('Dynamo - Get User by username: ', operation_time, ' ms');
+    return elapsed_time;
 }

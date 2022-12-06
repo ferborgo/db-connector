@@ -6,22 +6,19 @@ import { TestInfo } from "./run";
  * Caso de uso: "Quiero ver la información en detalle de un usuario"
  */
 
-export const testGetUser = async (username: string) => {
+export const testGetUser = async (username: string): Promise<TestInfo> => {
     
     // Dynamo
-    await getUser(username);
+    const dynamo_time = await getUser(username);
 
 
     // MySQL
-
-    let total_ms = 0;
-    let operation_time: number;
-    let start: number;
-
-    start = Date.now();
+    const start = Date.now();
     await AppDataSource.query('SELECT * FROM users WHERE username = ?', [username]);
-    operation_time = (Date.now() - start);
-    total_ms = total_ms + operation_time;
+    const elapsed_time = (Date.now() - start);
 
-    console.log('MySQL - Get User by username: ', operation_time, ' ms');
+    return {
+        dynamo_time,
+        mysql_time: elapsed_time
+    }
 }

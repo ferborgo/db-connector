@@ -40,7 +40,6 @@ class TestTimes {
     }
 
     sumBoth(mysql_time: number, dynamodb_time: number): void {
-        console.log('sum both')
         this.sumMysql(mysql_time);
         this.sumDynamo(dynamodb_time);
 
@@ -48,8 +47,16 @@ class TestTimes {
         if (this.cant_sums == this.when_log) console.log(this.log());
     }
 
+    private getDynamoAvg(): number {
+        return Number(this.total_dynamo / this.cant_sums);
+    }
+
+    private getMysqlAvg(): number {
+        return Number(this.total_mysql / this.cant_sums);
+    }
+
     log(): string {
-        return `Average after ${this.cant_sums} times of '${this.name}': MySQL ${this.total_mysql} ms - DynamoDB ${this.total_dynamo} ms.`;
+        return `Average after ${this.cant_sums} times of '${this.name}': MySQL ${this.getMysqlAvg()} ms - DynamoDB ${this.getDynamoAvg()} ms.`;
     }
 }
 
@@ -57,18 +64,23 @@ const runAll = async () => {
 
     if (!AppDataSource.isInitialized) await AppDataSource.initialize();
 
-    let getTweetTime = new TestTimes('Get tweet', 1);
+    const cant_iterations = 20;
 
-    for (let index = 0; index < 1; index++) {
+    let getTweetTime = new TestTimes('Get tweet', cant_iterations);
+    let getUser = new TestTimes('Get user', cant_iterations);
+
+    for (let index = 0; index < cant_iterations; index++) {
 
         testGetTweet('Zackary_Shields', '2IL7PUkkTGjDjw43P7CeWJOt7R7')
             .then((res) => getTweetTime.sumBoth(res.mysql_time, res.dynamo_time));
 
-        testGetUser('Zackary_Shields');
-        testListTweetsOfUser('Zackary_Shields', '2IL7PYgo27ksoq50DW7OgtulaMY');
-        testLikeExists('2IL7PXSZnX0H4RSWTn56wMqPHvo', 'Marilie.Gerhold8', '2IL7PSmKncFa2agwx0ndwZAiuXh');
-        testListResponsesOfTweet('Marilie.Gerhold8', '2IL7PZ4MfuyDJICkZN0skKUBSJ4');
-        testListLastLikedTweetsByUser('Marilie.Gerhold8', '2IL7PXSZnX0H4RSWTn56wMqPHvo')
+        testGetUser('Zackary_Shields')
+            .then((res) => getUser.sumBoth(res.mysql_time, res.dynamo_time));
+
+        // testListTweetsOfUser('Zackary_Shields', '2IL7PYgo27ksoq50DW7OgtulaMY');
+        // testLikeExists('2IL7PXSZnX0H4RSWTn56wMqPHvo', 'Marilie.Gerhold8', '2IL7PSmKncFa2agwx0ndwZAiuXh');
+        // testListResponsesOfTweet('Marilie.Gerhold8', '2IL7PZ4MfuyDJICkZN0skKUBSJ4');
+        // testListLastLikedTweetsByUser('Marilie.Gerhold8', '2IL7PXSZnX0H4RSWTn56wMqPHvo');
     }
 }
 

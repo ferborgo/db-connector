@@ -39,13 +39,22 @@ export const saveLikeOnDynamo = (like: Like) => {
 }
 
 export const userLikedTweet = async (username: string, tweetId: string): Promise<boolean> => {
-    const data = await db.LikeEntity.get({pk: `LIKE#${tweetId}`, sk: `USER#${username}`});
     
+    const startTime = Date.now();
+    const data = await db.LikeEntity.get({pk: `LIKE#${tweetId}`, sk: `USER#${username}`});
+    const elapsedTime = Date.now() - startTime;
+    console.log(`Dynamo - User liked tweet ${elapsedTime} ms`);
+
     return data.Item != null;
-}
+}   
 
 export const listLastLikedTweetsByUser = async (username: string) => {
 
+    let startTime = 0;
+    let operation_time = 0;
+    let total = 0;
+
+    startTime = Date.now();
     const data = await db.documentClient().query({
             TableName: TableName,
             IndexName: 'GSI1',
@@ -55,7 +64,9 @@ export const listLastLikedTweetsByUser = async (username: string) => {
             },
             ScanIndexForward: false
         }).promise();
-
+    operation_time = (Date.now() - startTime);
+    total = total + operation_time;
+    
     let keys = data.Items.map(item => {
         return {
             pk: `TWEET#${item.tweet_username}`,
@@ -63,6 +74,7 @@ export const listLastLikedTweetsByUser = async (username: string) => {
         }
     });
 
+    startTime = Date.now();
     const tweets_res = await db.documentClient().batchGet({
         RequestItems: {
             [TableName]: {
@@ -70,6 +82,8 @@ export const listLastLikedTweetsByUser = async (username: string) => {
             }
         }
     }).promise();
+    operation_time = (Date.now() - startTime);
+    total = total + operation_time;
 
     const tweets = tweets_res.Responses[TableName];
 
@@ -80,6 +94,7 @@ export const listLastLikedTweetsByUser = async (username: string) => {
         }
     });
 
+    startTime = Date.now();
     const users_batch = await db.documentClient().batchGet({
         RequestItems: {
             [TableName]: {
@@ -87,11 +102,14 @@ export const listLastLikedTweetsByUser = async (username: string) => {
             }
         }
     }).promise();
+    operation_time = (Date.now() - startTime);
+    total = total + operation_time;
 
     const users = users_batch.Responses[TableName];
 
     tweets.forEach(tweet => tweet.user = users.find((user => user.username == tweet.username)));
 
-    console.log(tweets.map(tweet => tweet.sk.split('#')[1]));
+    console.log(`Dynamo listLastLikedTweetsByUser ${total} ms`)
+    return tweets;
     
 }

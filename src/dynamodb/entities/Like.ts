@@ -87,11 +87,13 @@ export const listLastLikedTweetsByUser = async (username: string) => {
 
     const tweets = tweets_res.Responses[TableName];
 
-    keys = tweets.map(item => {
-        return {
+    keys = []
+    tweets.forEach(item => {
+        let key = {
             pk: `USER#${item.username}`,
             sk: `USER#${item.username}`
         }
+        if (keys.find((key2) => key2.pk == key.pk && key2.sk == key.sk) == undefined) keys.push(key);
     });
 
     startTime = Date.now();

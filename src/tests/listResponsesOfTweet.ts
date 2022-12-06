@@ -8,7 +8,7 @@
 import { AppDataSource } from "../data-source";
 import { listResponsesFromTweet } from "../dynamodb/entities/Response"
 
-export const listResponsesOfTweet = async (user_id: string, tweet_id: string) => {
+export const testListResponsesOfTweet = async (user_id: string, tweet_id: string) => {
 
     // DynamoDB
     await listResponsesFromTweet(tweet_id);
@@ -24,5 +24,5 @@ export const listResponsesOfTweet = async (user_id: string, tweet_id: string) =>
     operation_time = (Date.now() - start);
     total_ms = total_ms + operation_time;
 
-    console.log('MySQL - List tweets of user with pictures: ', operation_time, ' ms');
+    console.log('MySQL - List responses of tweet: ', operation_time, ' ms');
 }

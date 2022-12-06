@@ -31,7 +31,6 @@ export const listResponsesFromTweet = async (tweetId: string): Promise<Response[
     const res = await db.ResponseEntity.query(`RESPONSE#${tweetId}`);
     operation_time = (Date.now() - start);
     total_ms = total_ms + operation_time;
-    console.log('Query: ', operation_time);
     
     // Forma más casera
     // const res = await db.documentClient().query({
@@ -75,13 +74,13 @@ export const listResponsesFromTweet = async (tweetId: string): Promise<Response[
     }).promise();
     operation_time = (Date.now() - start)
     total_ms = total_ms + operation_time;
-    console.log('BatchGetItem: ', operation_time);
 
     const users = res_batchGet.Responses[TableName];
 
     items.forEach(item => item.user = users.find(user => user.username == item.username));
 
-    console.log('List reponses for tweet, total ms: ', total_ms);
+    console.log(`List reponses for tweet ${total_ms} ms`);
+
 
     return items as Response[];
 }

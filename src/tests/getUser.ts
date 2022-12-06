@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { getUser } from "../dynamodb/entities/User";
+import { TestInfo } from "./run";
 
 /**
  * Caso de uso: "Quiero ver la información en detalle de un usuario"

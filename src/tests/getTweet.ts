@@ -7,23 +7,21 @@
 
 import { AppDataSource } from "../data-source";
 import { getTweet } from "../dynamodb/entities/Tweet"
+import { TestInfo } from "./run";
 
-export const testGetTweet = async (username: string, tweet_id: string) => {
+export const testGetTweet = async (username: string, tweet_id: string): Promise<TestInfo> => {
 
     // DynamoDB
-    await getTweet(username, tweet_id);
+    const dynamo_time = await getTweet(username, tweet_id);
 
     // MySQL
+    const start = Date.now();
+    const mysql_response = await AppDataSource.query('SELECT * FROM tweets t LEFT JOIN pictures p ON (t.id = p.tweetId) WHERE t.id = ?', [tweet_id]);
+    const elapsed_time = (Date.now() - start);
 
-    let total_ms = 0;
-    let operation_time: number;
-    let start: number;
-
-    start = Date.now();
-    await AppDataSource.query('SELECT * FROM tweets t LEFT JOIN pictures p ON (t.id = p.tweetId) WHERE t.id = ?', [tweet_id]);
-    operation_time = (Date.now() - start);
-    total_ms = total_ms + operation_time;
-
-    console.log('MySQL - Get tweet: ', operation_time, ' ms');
+    return {
+        dynamo_time,
+        mysql_time: elapsed_time
+    }
 
 }

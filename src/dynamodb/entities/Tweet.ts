@@ -46,15 +46,11 @@ export const listTweetsFromUser = async (username: string) => {
     console.log('Dynamo - List tweets of user with pictures: ', operation_time, ' ms');
 }
 
-export const getTweet = async (username: string, tweet_id: string) => {
-    let total_ms = 0;
-    let operation_time: number;
-    let start: number;
+export const getTweet = async (username: string, tweet_id: string): Promise<number> => {
 
-    start = Date.now();
+    const start = Date.now();
     const res = await db.TweetEntity.get({pk: `TWEET#${username}`, sk: `ID#${tweet_id}`});
-    operation_time = (Date.now() - start);
-    total_ms = total_ms + operation_time;
+    const elapsed_time = Date.now() - start
 
-    console.log('Dynamo - Get tweet', operation_time, ' ms');
+    return elapsed_time;
 }

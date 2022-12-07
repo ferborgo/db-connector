@@ -31,19 +31,15 @@ function convertToObject(pictures: Picture[]): Object {
 }
 
 
-export const listTweetsFromUser = async (username: string) => {
-    let total_ms = 0;
-    let operation_time: number;
-    let start: number;
+export const listTweetsFromUser = async (username: string): Promise<number> => {
 
-    start = Date.now();
+    const start = Date.now();
     const res = await db.TweetEntity.query(`TWEET#${username}`, {
         reverse: true
     });
-    operation_time = (Date.now() - start);
-    total_ms = total_ms + operation_time;
+    const elapsed_time = (Date.now() - start);
 
-    console.log('Dynamo - List tweets of user with pictures: ', operation_time, ' ms');
+    return elapsed_time;
 }
 
 export const getTweet = async (username: string, tweet_id: string): Promise<number> => {

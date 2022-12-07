@@ -21,12 +21,12 @@ Para comparar los tiempos de ejecución entre MySQL y DynamoDB en diferentes cas
 
 | Caso de uso | MySQL | DynamoDB |
 | -------- | -------- | -------- |
-| Get tweet     | 7 ms     | 119 ms     |
-| Get user     | 5 ms     | 26 ms     |
-| List last tweets of user     | 5 ms     | 91 ms     |
-| User liked tweet?     | 9 ms     | 35 ms     |
-| List responses of tweet     | 2 ms     | 77 ms     |
-| List last liked tweets by user     | 5 ms     | 80 ms     |
+| Get tweet     | 0.97 ms     | 8.23 ms     |
+| Get user     | 0.93 ms     | 7.85 ms     |
+| List last tweets of user     | 1.09 ms     | 8.49 ms     |
+| User liked tweet?     | 3.27 ms     | 7.85 ms     |
+| List responses of tweet     | 1.08 ms     | 21.59 ms     |
+| List last liked tweets by user     | 1.39 ms     | 35.17 ms     |
 
 ## Conclusiones con pocos datos
 En general, se observa que MySQL tiene tiempos de ejecución más bajos que DynamoDB en la mayoría de los casos de uso. Esto se debe a que MySQL es una base de datos relacional que utiliza índices para acceder rápidamente a los datos, mientras que DynamoDB es una base de datos no relacional que no utiliza índices y debe escanear todos los datos para realizar consultas.

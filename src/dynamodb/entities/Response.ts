@@ -20,7 +20,7 @@ export const saveResponseOnDynamo = (response: Response) => {
 }
 
 
-export const listResponsesFromTweet = async (tweetId: string): Promise<Response[]> => {
+export const listResponsesFromTweet = async (tweetId: string): Promise<number> => {
     const responses: Response[] = [];
 
     let total_ms = 0;
@@ -82,5 +82,5 @@ export const listResponsesFromTweet = async (tweetId: string): Promise<Response[
     console.log(`List reponses for tweet ${total_ms} ms`);
 
 
-    return items as Response[];
+    return total_ms;
 }

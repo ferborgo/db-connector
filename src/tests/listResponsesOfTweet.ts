@@ -7,22 +7,21 @@
 
 import { AppDataSource } from "../data-source";
 import { listResponsesFromTweet } from "../dynamodb/entities/Response"
+import { TestInfo } from "./run";
 
-export const testListResponsesOfTweet = async (user_id: string, tweet_id: string) => {
+export const testListResponsesOfTweet = async (user_id: string, tweet_id: string): Promise<TestInfo> => {
 
     // DynamoDB
-    await listResponsesFromTweet(tweet_id);
+    const dynamo_time = await listResponsesFromTweet(tweet_id);
 
     // MySQL
 
-    let total_ms = 0;
-    let operation_time: number;
-    let start: number;
-
-    start = Date.now();
+    const start = Date.now();
     const mysql_res = await AppDataSource.query('SELECT * FROM responses r INNER JOIN users u ON (u.id = r.userId) WHERE tweetId = ? ORDER BY r.created_at DESC;', [tweet_id]);
-    operation_time = (Date.now() - start);
-    total_ms = total_ms + operation_time;
+    const elapsed_time = (Date.now() - start);
 
-    console.log('MySQL - List responses of tweet: ', operation_time, ' ms');
+    return {
+        dynamo_time,
+        mysql_time: elapsed_time
+    }
 }

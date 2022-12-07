@@ -4,17 +4,21 @@
 
 import { AppDataSource } from "../data-source";
 import { userLikedTweet } from "../dynamodb/entities/Like"
+import { TestInfo } from "./run";
 
-export const testLikeExists = async (userId: string, username: string, tweet_id: string) => {
+export const testLikeExists = async (userId: string, username: string, tweet_id: string): Promise<TestInfo> => {
 
     // DynamoDB
-    userLikedTweet(username, tweet_id)
+    const dynamo_time = await userLikedTweet(username, tweet_id)
 
     // MySQL
     const start = Date.now();
     await AppDataSource.query('SELECT * FROM likes where userId = ? and tweetId = ?', [userId, tweet_id]);
     const total = (Date.now() - start);
 
-    console.log('MySQL - User liked tweet ', total, ' ms');
+    return {
+        dynamo_time,
+        mysql_time: total
+    }
     
 }

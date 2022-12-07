@@ -64,11 +64,12 @@ const runAll = async () => {
 
     if (!AppDataSource.isInitialized) await AppDataSource.initialize();
 
-    const cant_iterations = 5;
+    const cant_iterations = 1;
 
     let getTweetTime = new TestTimes('Get tweet', cant_iterations);
     let getUserTime = new TestTimes('Get user', cant_iterations);
     let listTweetsOfUserTime = new TestTimes('List tweets of user', cant_iterations);
+    let likeExistsTime = new TestTimes('Like exists?', cant_iterations);
 
     for (let index = 0; index < cant_iterations; index++) {
 
@@ -81,8 +82,11 @@ const runAll = async () => {
         testListTweetsOfUser('Zackary_Shields', '2IL7PYgo27ksoq50DW7OgtulaMY')
             .then((res) => listTweetsOfUserTime.sumBoth(res.mysql_time, res.dynamo_time))
 
-        
-        // testLikeExists('2IL7PXSZnX0H4RSWTn56wMqPHvo', 'Marilie.Gerhold8', '2IL7PSmKncFa2agwx0ndwZAiuXh');
+
+        testLikeExists('2IL7PXSZnX0H4RSWTn56wMqPHvo', 'Marilie.Gerhold8', '2IL7PSmKncFa2agwx0ndwZAiuXh')
+            .then((res) => likeExistsTime.sumBoth(res.mysql_time, res.dynamo_time))
+
+    
         // testListResponsesOfTweet('Marilie.Gerhold8', '2IL7PZ4MfuyDJICkZN0skKUBSJ4');
         // testListLastLikedTweetsByUser('Marilie.Gerhold8', '2IL7PXSZnX0H4RSWTn56wMqPHvo');
     }

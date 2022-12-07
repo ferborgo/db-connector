@@ -38,14 +38,13 @@ export const saveLikeOnDynamo = (like: Like) => {
     return db.LikeEntity.put(item);
 }
 
-export const userLikedTweet = async (username: string, tweetId: string): Promise<boolean> => {
+export const userLikedTweet = async (username: string, tweetId: string): Promise<number> => {
     
     const startTime = Date.now();
     const data = await db.LikeEntity.get({pk: `LIKE#${tweetId}`, sk: `USER#${username}`});
     const elapsedTime = Date.now() - startTime;
-    console.log(`Dynamo - User liked tweet ${elapsedTime} ms`);
 
-    return data.Item != null;
+    return elapsedTime;
 }   
 
 export const listLastLikedTweetsByUser = async (username: string) => {

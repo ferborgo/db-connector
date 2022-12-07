@@ -79,8 +79,5 @@ export const listResponsesFromTweet = async (tweetId: string): Promise<number> =
 
     items.forEach(item => item.user = users.find(user => user.username == item.username));
 
-    console.log(`List reponses for tweet ${total_ms} ms`);
-
-
     return total_ms;
 }

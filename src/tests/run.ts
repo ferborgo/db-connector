@@ -70,6 +70,8 @@ const runAll = async () => {
     let getUserTime = new TestTimes('Get user', cant_iterations);
     let listTweetsOfUserTime = new TestTimes('List tweets of user', cant_iterations);
     let likeExistsTime = new TestTimes('Like exists?', cant_iterations);
+    let listResponsesOfTweetTime = new TestTimes('List responses of tweet', cant_iterations);
+    let listLastLikedTweetsByUserTime = new TestTimes('List last liked tweets by user', cant_iterations);
 
     for (let index = 0; index < cant_iterations; index++) {
 
@@ -87,8 +89,12 @@ const runAll = async () => {
             .then((res) => likeExistsTime.sumBoth(res.mysql_time, res.dynamo_time))
 
     
-        // testListResponsesOfTweet('Marilie.Gerhold8', '2IL7PZ4MfuyDJICkZN0skKUBSJ4');
-        // testListLastLikedTweetsByUser('Marilie.Gerhold8', '2IL7PXSZnX0H4RSWTn56wMqPHvo');
+        testListResponsesOfTweet('Marilie.Gerhold8', '2IL7PZ4MfuyDJICkZN0skKUBSJ4')
+            .then((res) => listResponsesOfTweetTime.sumBoth(res.mysql_time, res.dynamo_time))
+
+        
+        testListLastLikedTweetsByUser('Marilie.Gerhold8', '2IL7PXSZnX0H4RSWTn56wMqPHvo')
+            .then((res) => listLastLikedTweetsByUserTime.sumBoth(res.mysql_time, res.dynamo_time))
     }
 }
 

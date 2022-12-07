@@ -47,7 +47,7 @@ export const userLikedTweet = async (username: string, tweetId: string): Promise
     return elapsedTime;
 }   
 
-export const listLastLikedTweetsByUser = async (username: string) => {
+export const listLastLikedTweetsByUser = async (username: string): Promise<number> => {
 
     let startTime = 0;
     let operation_time = 0;
@@ -110,7 +110,7 @@ export const listLastLikedTweetsByUser = async (username: string) => {
 
     tweets.forEach(tweet => tweet.user = users.find((user => user.username == tweet.username)));
 
-    console.log(`Dynamo listLastLikedTweetsByUser ${total} ms`)
-    return tweets;
+
+    return total;
     
 }

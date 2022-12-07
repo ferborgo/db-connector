@@ -7,17 +7,21 @@
 
 import { AppDataSource } from "../data-source";
 import { listLastLikedTweetsByUser } from "../dynamodb/entities/Like"
+import { TestInfo } from "./run";
 
-export const testListLastLikedTweetsByUser = async (username: string, userId: string) => {
+export const testListLastLikedTweetsByUser = async (username: string, userId: string): Promise<TestInfo> => {
 
     // Dynamo
-    listLastLikedTweetsByUser(username);
+    const dynamo_time = await listLastLikedTweetsByUser(username);
 
     // MySQL
     const start = Date.now();
     await AppDataSource.query('SELECT * FROM likes l INNER JOIN tweets t ON (t.id = l.tweetId) INNER JOIN users u ON (u.id = t.userId) LEFT JOIN pictures p ON (p.tweetId = t.id) WHERE l.userId = ? ORDER BY l.created_at DESC', [userId]);
-    const total = (Date.now() - start);
+    const elapsed_time = (Date.now() - start);
 
-    console.log('MySQL - listLastLikedTweetsByUser ', total, ' ms');
+    return {
+        dynamo_time,
+        mysql_time: elapsed_time
+    }
 
 }

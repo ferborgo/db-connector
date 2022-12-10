@@ -19,11 +19,11 @@ manager.initialize().then(async () => {
 
     // await testListTweetsOfUser('Andre32', '2HUzgRsFAvLnXcGLSSWRDgGlzLr')
 
-    userLikedTweet('Frederic_Stamm', '2IL7PXIRIvbbNggdPWQOWnHkZOP')
-        .then(res => { (res == true) ? console.log('Frederic_Stamm liked the tweet with id 2IL7PXIRIvbbNggdPWQOWnHkZOP') : console.log('Frederic_Stamm DID NOT liked the tweet with id 2IL7PXIRIvbbNggdPWQOWnHkZOP') });
+    // userLikedTweet('Frederic_Stamm', '2IL7PXIRIvbbNggdPWQOWnHkZOP')
+    //     .then(res => { (res == true) ? console.log('Frederic_Stamm liked the tweet with id 2IL7PXIRIvbbNggdPWQOWnHkZOP') : console.log('Frederic_Stamm DID NOT liked the tweet with id 2IL7PXIRIvbbNggdPWQOWnHkZOP') });
 
-    userLikedTweet('Frederic_Stamm', '2IL7PYhbLmBJzn81bwDMUXNcYa7')
-        .then(res => { (res == true) ? console.log('Frederic_Stamm liked the tweet with id 2IL7PYhbLmBJzn81bwDMUXNcYa7') : console.log('Frederic_Stamm DID NOT liked the tweet  with id 2IL7PYhbLmBJzn81bwDMUXNcYa7') })
+    // userLikedTweet('Frederic_Stamm', '2IL7PYhbLmBJzn81bwDMUXNcYa7')
+    //     .then(res => { (res == true) ? console.log('Frederic_Stamm liked the tweet with id 2IL7PYhbLmBJzn81bwDMUXNcYa7') : console.log('Frederic_Stamm DID NOT liked the tweet  with id 2IL7PYhbLmBJzn81bwDMUXNcYa7') })
 
     await listLastLikedTweetsByUser('Frederic_Stamm');
 }).catch(error => console.log(error))

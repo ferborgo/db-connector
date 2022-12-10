@@ -37,7 +37,19 @@ function tableConfig(): CreateTableInput {
             { AttributeName: "pk", KeyType: "HASH" },
             { AttributeName: "sk", KeyType: "RANGE" }
         ],
-        BillingMode: 'PAY_PER_REQUEST'
+        BillingMode: 'PAY_PER_REQUEST',
+        GlobalSecondaryIndexes: [
+            {
+                IndexName: 'GSI1',
+                KeySchema: [
+                    { AttributeName: 'gsi1_pk', KeyType: 'S' },
+                    { AttributeName: 'gsi1_sk', KeyType: 'S' }
+                ],
+                Projection: {
+                    ProjectionType: 'ALL'
+                }
+            }
+        ]
     }
 
     return table;
